@@ -49,6 +49,7 @@ m.drawcountries()
 plt.show()
 
 #visualizing world map
+
 import pandas as pd
 import folium
 data = pd.read_csv('earthquake_data.csv')
@@ -68,3 +69,13 @@ for index, row in data.iterrows():
         popup=f"Location: {location}<br>Latitude: {latitude}<br>Longitude: {longitude}<br>Magnitude: {magnitude}",
     ).add_to(world_map)
 world_map.save('earthquake_map.html')
+
+#splitting  i t into training and testing sets
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+data = pd.read_csv('earthquake_data.csv')
+X = data[['Latitude', 'Longitude']]
+y = data['Magnitude']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
