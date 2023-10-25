@@ -14,6 +14,7 @@ Original file is located at
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
+import folium
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -46,3 +47,24 @@ m.fillcontinents(color='coral',lake_color='aqua')
 m.drawmapboundary()
 m.drawcountries()
 plt.show()
+
+#visualizing world map
+import pandas as pd
+import folium
+data = pd.read_csv('earthquake_data.csv')
+world_map = folium.Map(location=[0, 0], zoom_start=2)
+for index, row in data.iterrows():
+    # Extract relevant data
+    latitude = row['Latitude']
+    longitude = row['Longitude']
+    magnitude = row['Magnitude']
+    location = row['Location Source']
+    folium.CircleMarker(
+        location=[latitude, longitude],
+        radius=magnitude * 2,  # Adjust the radius based on magnitude
+        color='red',
+        fill=True,
+        fill_color='red',
+        popup=f"Location: {location}<br>Latitude: {latitude}<br>Longitude: {longitude}<br>Magnitude: {magnitude}",
+    ).add_to(world_map)
+world_map.save('earthquake_map.html')
